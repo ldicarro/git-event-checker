@@ -2,6 +2,10 @@ html,body {
     font-family: Arial, Helvetica, sans-serif;
 }
 
+a {
+    text-decoration: none;
+}
+
 .form-row {
     pointer-events: all;
     padding: 10px;
@@ -12,3 +16,19 @@ html,body {
     pointer-events: none;
     opacity: .5;
 }
+
+.results { 
+    border-top: 1px solid #cdcdcd;
+}
+
+.results-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    border-bottom: 1px solid #cdcdcd;
+}
+
+.results-row span {
+    display: inline-block;
+}
+

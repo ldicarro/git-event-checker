@@ -36,13 +36,34 @@ function getReproEvents(evt) {
     fetch(evt.target.value)
         .then((res) => res.json())
         .then((data) => {
-            console.log(data);
-            data.forEach((el) => {
-                let str = `<span>${el.type}</span><span>${el.actor.display_login}</span><span>${el.created_at}</span>`;
-                const row = document.createElement('div');
-                row.innerHTML = str;
-                document.querySelector('#results').appendChild(row);
-            })
+            const results = document.querySelector('#results');
+            results.innerHTML = '';
+            if(data.length > 0)
+            {
+                data.forEach((el) => {
+                    const evnt = document.createElement('span');
+                    evnt.innerText = el.type;
+
+                    const user = document.createElement('a');
+                    user.innerText = el.actor.display_login;
+                    user.setAttribute('href',el.actor.url);
+                    
+                    const date = document.createElement('span');
+                    date.innerText = el.created_at;
+
+                    const row = document.createElement('div');
+                    row.className = 'results-row';
+                    row.appendChild(evnt);
+                    row.appendChild(user);
+                    row.appendChild(date);
+                    
+                    results.appendChild(row);
+                })
+            }
+            else
+            {
+                results.innerHTML = `<div class="results-row">No events found</div>`;
+            }
         })
         .catch((err) => {
             console.log(`err: ${err}`)
