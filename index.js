@@ -1,6 +1,6 @@
 window.addEventListener('load', () => {
     document.querySelector('#user').addEventListener('blur',(evt) => updateRepros(evt));
-    document.querySelector('#submit').addEventListener('click',(evt) => getReproEvents(evt));
+    document.querySelector('#repros').addEventListener('change',(evt) => getReproEvents(evt));
 })
 
 function updateRepros(evt) {
@@ -18,7 +18,6 @@ function updateRepros(evt) {
                     var tempEl = document.createElement('option');
                     tempEl.innerText = el.name;
                     tempEl.value = el.events_url;
-                    console.log(el);
                     select.appendChild(tempEl);
                 })
 
@@ -32,6 +31,20 @@ function updateRepros(evt) {
 
 }
 
-function getReproEvents(e) {
-    console.log('click');
+function getReproEvents(evt) {
+    console.log(evt.target.value);
+    fetch(evt.target.value)
+        .then((res) => res.json())
+        .then((data) => {
+            console.log(data);
+            data.forEach((el) => {
+                let str = `<span>${el.type}</span><span>${el.actor.display_login}</span><span>${el.created_at}</span>`;
+                const row = document.createElement('div');
+                row.innerHTML = str;
+                document.querySelector('#results').appendChild(row);
+            })
+        })
+        .catch((err) => {
+            console.log(`err: ${err}`)
+        })
 }
