@@ -21,7 +21,7 @@ function updateRepros(evt) {
                     select.appendChild(tempEl);
                 })
 
-                select.removeAttribute('disabled');
+                select.parentElement.classList.remove('disabled');
             }
             else
             {

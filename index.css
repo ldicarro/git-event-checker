@@ -3,5 +3,12 @@ html,body {
 }
 
 .form-row {
+    pointer-events: all;
     padding: 10px;
+    opacity: 1;
+}
+
+.form-row.disabled {
+    pointer-events: none;
+    opacity: .5;
 }
