@@ -4,15 +4,29 @@ window.addEventListener('load', () => {
 })
 
 function updateRepros(evt) {
+    const userError = document.querySelector('#user-error');
+    const select = document.querySelector('#repros');
+
+    userError.innerText = '';
+    select.parentElement.classList.add('disabled');
+    select.innerHTML = '<option>Select</option>';
+    document.querySelector('#results').innerHTML = '';
+
     const url = `https://api.github.com/users/${evt.target.value}/repos`;
 
     fetch(url) 
-        .then((res) => res.json())
+        .then((res) => {
+            if(res.status === 200) {
+                return res.json();
+            }
+            else {
+                userError.innerText = "User not found.";
+            }
+        })
         .then((data) => {
 
             if(data.length > 0)
             {
-                let select = document.querySelector('#repros');
                 select.innerHTML = '';
                 data.forEach((el) => {
                     var tempEl = document.createElement('option');
@@ -25,14 +39,14 @@ function updateRepros(evt) {
             }
             else
             {
-                // display error
+                
             }
         })
+        .catch((err) => console.log(err))
 
 }
 
 function getReproEvents(evt) {
-    console.log(evt.target.value);
     fetch(evt.target.value)
         .then((res) => res.json())
         .then((data) => {
