@@ -6,7 +6,6 @@ module.exports = function(app) {
     app.route('/users/:user')
         .get(ghEvents.getUserRepos);
 
-    //app.route('/tasks/:taskId')
-    //    .get(ghEvents.read_a_task)
-    //    .post(ghEvents.update_a_task);
+    app.route('/repos/:user/:repo/events')
+        .get(ghEvents.getRepoEvents);
 }

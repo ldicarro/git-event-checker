@@ -12,12 +12,18 @@ exports.getUserRepos = (req,resp) => {
                 return res.json();
             }
             else {
-                resp.send("User not found.");
+                resp.status(404);
+                resp.send([
+                    {
+                        'status': 'Error',
+                        'message': 'User not found.'
+                    }
+                ])
             }
         })
         .then((data) => {
-            console.log(data);
             if (data.length > 0) {
+                resp.status(200);
                 resp.send(data);
             }
             else {
@@ -26,6 +32,31 @@ exports.getUserRepos = (req,resp) => {
         })
         .catch((err) => {
             console.log(err);
+            resp.status(404);
             resp.send(err);
         });
+}
+
+exports.getRepoEvents = (req,resp) => {
+    const user = req.params.user;
+    const repo = req.params.repo;
+
+    const url = `https://api.github.com/repos/${user}/${repo}/events`;
+
+    fetch(url)
+        .then((res) => res.json())
+        .then((data) => {
+            if(data.length > 0) {
+                resp.status(200);
+                resp.send(data);
+            } else {
+                resp.status(200);
+                resp.send([
+                    {
+                        'status': 'Error',
+                        'message': 'No Results'
+                    }
+                ])
+            }
+        })
 }
