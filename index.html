@@ -2,7 +2,7 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" ng-app="githubEvents"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,25 +11,32 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="index.css">
     </head>
-    <body>
+    <body ng-controller="githubEventsController">
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         <div class="container">
             <div class="input">
-                <div class="form-row"><label for="user">User name: <input type="text" id="user" name="user"></label><span class="user-error" id="user-error"></span></div>
-                <div class="form-row disabled">
-                    <label for="repo">Repro:</label>
-                    <select id="repros" name="repro">
-                        <option>Select</option>
+                <div class="form-row"><label for="user">User name: <input name="user" ng-model="user" ng-blur="getUserRepos()"></label><span class="user-error" id="user-error"></span></div>
+                <div class="form-row disabled" id="repoList">
+                    <label for="repo">Repo:</label>
+                    <select id="repos" name="repo" ng-change="getRepoEvents()" ng-model="currentRepo">
+                        <option ng-repeat="item in repoObjs" ng-value="item.id">{{item.name}}</option>
+                    </select>
+                </div>
+                <div class="form-row disabled" id="eventList">
+                    <label for="events">Events:</label>
+                    <select id="events" name="events" ng-model="currentEvent">
+                        <option value='xxx'>None</option>
+                        <option ng-repeat="item in eventsMenu" ng-value="item.type">{{item.type}}</option>
                     </select>
                 </div>
             </div>
             <div class="results" id="results">
-
+                <div ng-repeat="item in eventsObj | filter:currentEvent">{{item.date}} || {{item.type}}  ||  {{item.actor}}</div>
             </div>
         </div>
-        
-        <script src="index.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.7.5/angular.min.js"></script>
+        <script src="app.js"></script>
     </body>
 </html>
