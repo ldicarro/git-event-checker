@@ -3,6 +3,7 @@
 const fetch = require('node-fetch');
 
 exports.getUserRepos = (req,resp) => {
+    console.log('getuserrepos');
     const user = req.params.user;
     const url = `https://api.github.com/users/${user}/repos`;
 
@@ -38,6 +39,7 @@ exports.getUserRepos = (req,resp) => {
 }
 
 exports.getRepoEvents = (req,resp) => {
+    console.log('getrepoevents');
     const user = req.params.user;
     const repo = req.params.repo;
 
@@ -62,6 +64,7 @@ exports.getRepoEvents = (req,resp) => {
 }
 
 exports.getSortedRepoEvents = (req,resp) => {
+    console.log('getsortedrepoevents');
     const user = req.params.user;
     const repo = req.params.repo;
     const event = req.params.event;
