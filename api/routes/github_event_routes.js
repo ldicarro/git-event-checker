@@ -8,4 +8,7 @@ module.exports = function(app) {
 
     app.route('/repos/:user/:repo/events')
         .get(ghEvents.getRepoEvents);
+
+    app.route('/repos/:user/:repo/:event')
+        .get(ghEvents.getSortedRepoEvents);
 }

@@ -60,3 +60,31 @@ exports.getRepoEvents = (req,resp) => {
             }
         })
 }
+
+exports.getSortedRepoEvents = (req,resp) => {
+    const user = req.params.user;
+    const repo = req.params.repo;
+    const event = req.params.event;
+
+    const url = `https://api.github.com/repos/${user}/${repo}/events`;
+
+    fetch(url)
+        .then((res) => res.json())
+        .then((data) => {
+            if (data.length > 0) {
+
+                const filtered = data.filter(el => el.type === event);
+
+                resp.status(200);
+                resp.send(filtered);
+            } else {
+                resp.status(200);
+                resp.send([
+                    {
+                        'status': 'Error',
+                        'message': 'No Results'
+                    }
+                ])
+            }
+        })
+}
